@@ -29,7 +29,7 @@ jobs:
         with:
           token: ${{ secrets.WES_GH_TOKEN }}
           org-name: cloudbees-days
-          repo-name: hackers-WesTest4Vijay
+          repo-name: hackers-WesTest4AQ
           branch-name: main
           workflow-name: test-and-build-image
           test-type: JUnit
@@ -91,9 +91,9 @@ jobs:
         id: register-artifact
         uses: cloudbees-io/register-build-artifact@v2
         with:
-          name: ldonleycb/hackers-organized
-          version: ${{ cloudbees.scm.sha }}
-          url: ${{ secrets.DOCKERHUB_USER }}/hackers-organized:${{ cloudbees.scm.sha }}
+          name: "ldonleycb/hackers-organized"
+          version: "${{ cloudbees.scm.sha }}"
+          url: "${{ secrets.DOCKERHUB_USER }}/hackers-organized:${{ cloudbees.scm.sha }}"
       - name: Publish evidence
         uses: cloudbees-io/publish-evidence-item@v1
         with:
@@ -181,10 +181,10 @@ jobs:
     steps:
       - name: Checkout
         uses: cloudbees-io/checkout@v1
-      - uses: cashokannamalai/kubeconfig@v1
+      - uses: cloudbees-days/setup-kubeconfig
         name: Set kubeconfig
         with:
-          secname: ${{ secrets.kubeconfig }}
+          kubeconfig: ${{ secrets.kubeconfig }}
       - name: Deploy to cluster
         uses: cloudbees-io/kustomize-deploy@v1
         kind: deploy
@@ -206,7 +206,7 @@ jobs:
         uses: cloudbees-io/register-deployed-artifact@v2
         with:
           artifact-id: ${{ needs.build-container-image.outputs.ARTIFACT_ID }}
-          target-environment: DOW Production
+          target-environment: "DOW Production"
     needs:
       - build-container-image
       - scan
